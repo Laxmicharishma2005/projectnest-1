@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ADEFD1FF;
+
+        }
+
+        #review-form {
+            background-color: #219ebc;
+            border: 2px solid #0880a1;
+            max-width: 350px;
+            margin-bottom: 50px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .review {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #cf71Af;
+    
+        }
+        body{
+            
+            background-repeat: no-repeat;
+            background-size: cover; 
+            
+        }
+        h1{
+           text-align: center;
+        }
+        h2{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1> Reviews</h1>
+
+    <div id="review-form">
+        <form id="user-review-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required><br><br>
+
+            <label for="rating">Rating:</label>
+            <select id="rating" required>
+                <option value="5">5 (Excellent)</option>
+                <option value="4">4 (Good)</option>
+                <option value="3">3 (Average)</option>
+                <option value="2">2 (Below Average)</option>
+                <option value="1">1 (Poor)</option>
+            </select><br><br>
+
+            <label for="comment">Review:</label>
+            <textarea id="comment" rows="4" required></textarea><br><br>
+
+            <button type="button" onclick="submitForm(event)">Submit Review</button>
+        </form>
+    </div>
+    <script>
+
+        function submitForm(event) {
+            event.preventDefault(); // Prevent the default form submission
+        
+            const name = document.querySelector('#name').value;
+            const rating = document.querySelector('#rating').value;
+            const review = document.querySelector('#comment').value; // Changed to #comment
+        
+            const jsonData = {
+                name: name,
+                rating: rating,
+                review: review,
+            };
+        
+            fetch('http://127.0.0.1:5500/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Data failed to store in the backend.');
+            });
+        }
+    </script>
+
+</body>
+</html>
